@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Mom, With Love 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c2185b;
+    --rose-light: #f8bbd0;
+    --rose-pale: #fce4ec;
+    --gold: #d4a843;
+    --cream: #fff8f0;
+    --text-dark: #3a1a2e;
+    --text-mid: #7b4060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lato', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Petals background */
+  .petals-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: fall linear infinite;
+    opacity: 0.4;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Main container */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 1s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .header .emoji-row {
+    font-size: 2rem;
+    letter-spacing: 8px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: var(--rose);
+    line-height: 1.2;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .header p.subtitle {
+    margin-top: 12px;
+    color: var(--text-mid);
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  /* Day counter strip */
+  .day-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+    animation: fadeIn 1.2s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  .day-badge {
+    background: linear-gradient(135deg, var(--rose), #e91e8c);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(194,24,91,0.35);
+  }
+  .day-info { color: var(--text-mid); font-size: 0.85rem; line-height: 1.6; }
+  .day-info strong { display: block; color: var(--text-dark); font-size: 1rem; }
+
+  /* Message card */
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 44px;
+    box-shadow: 0 12px 60px rgba(194,24,91,0.1), 0 2px 12px rgba(0,0,0,0.04);
+    border: 1.5px solid var(--rose-light);
+    position: relative;
+    overflow: hidden;
+    animation: cardIn 1.4s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .card::before {
+    content: '"';
+    position: absolute;
+    top: -20px; left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12rem;
+    color: var(--rose-pale);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, var(--rose-pale) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .card .message-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 3vw, 1.35rem);
+    line-height: 1.85;
+    color: var(--text-dark);
+    position: relative; z-index: 1;
+    font-style: italic;
+  }
+  .card .signature {
+    margin-top: 28px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    letter-spacing: 0.5px;
+    position: relative; z-index: 1;
+  }
+  .card .signature strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--rose);
+  }
+
+  /* Divider hearts */
+  .divider {
+    text-align: center;
+    color: var(--rose-light);
+    font-size: 1.2rem;
+    letter-spacing: 12px;
+    margin: 36px 0;
+  }
+
+  /* Progress section */
+  .progress-section { animation: fadeIn 2s ease both; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; color: var(--text-mid);
+    margin-bottom: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .progress-bar {
+    background: var(--rose-pale);
+    border-radius: 100px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    border-radius: 100px;
+    transition: width 1.5s cubic-bezier(.16,1,.3,1);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+    line-height: 2;
+    animation: fadeIn 2.5s ease both;
+  }
+  .footer .heart { color: var(--rose); font-size: 1rem; }
+  .footer .date-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  /* Admin panel styles only */
+
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--text-mid);
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+  .loading .spinner {
+    display: inline-block;
+    width: 32px; height: 32px;
+    border: 3px solid var(--rose-light);
+    border-top-color: var(--rose);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .card { padding: 36px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="petals-bg" id="petals"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="emoji-row"></div>
+    <h1>For <em>My Beloved Mom</em>,<br>Special 44th Birthday</h1>
+    <p class="subtitle">365 messages for 365 days of love</p>
+  </div>
+
+  <div class="day-strip">
+    <div class="day-badge" id="dayNumber">—</div>
+    <div class="day-info">
+      <strong id="dateDisplay">Loading...</strong>
+      Day of your special year
+    </div>
+  </div>
+
+  <div class="card" id="messageCard">
+    <div class="loading">
+      <div class="spinner"></div><br>
+      Loading today's message...
+    </div>
+  </div>
+
+  <div class="divider">♥ ♥ ♥</div>
+
+  <div class="progress-section">
+    <div class="progress-label">
+      <span>Your journey together</span>
+      <span id="progressText">0 / 365 days</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="date-display" id="todayDate"></div>
+    Made with <span class="heart">♥</span> just for you<br>
+    Come back tomorrow for a new message
+  </div>
+</div>
+
+<!-- Secret admin: add ?edit=cici to the URL to unlock editor -->
+<div id="secretCorner" style="position:fixed;bottom:0;right:0;width:40px;height:40px;z-index:999;cursor:default;"></div>
+
+<!-- Admin panel -->
+<div id="adminPanel" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; overflow-y:auto;">
+  <div style="max-width:600px; margin:40px auto; background:white; border-radius:20px; padding:36px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+      <h2 style="font-family:'Playfair Display',serif; color:var(--rose);">✏️ Cici's Message Editor</h2>
+      <button onclick="toggleAdmin()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:var(--text-mid); font-size:0.85rem; margin-bottom:20px;">Click any day to edit its message. Changes save automatically.</p>
+    <input type="text" id="searchDay" placeholder="Jump to day # (1-365)" 
+      style="width:100%; padding:12px 16px; border:1.5px solid var(--rose-light); border-radius:12px; font-size:0.9rem; margin-bottom:16px; outline:none;"
+      onchange="jumpToDay(this.value)">
+    <div id="adminMessages" style="max-height:500px; overflow-y:auto;"></div>
+    <button onclick="saveAllMessages()" 
+      style="width:100%; margin-top:20px; background:linear-gradient(135deg,var(--rose),#e91e8c); color:white; border:none; padding:14px; border-radius:12px; font-size:1rem; font-family:'Playfair Display',serif; cursor:pointer; font-style:italic;">
+      Save All Changes 💌
+    </button>
+  </div>
+</div>
+
+<script>
+// =============================================
+// 365 MESSAGES — Personalized for Mom
+// Written from the heart, one for every day 💌
+// =============================================
+const DEFAULT_MESSAGES = [
+  // Days 1–30 (March — Birthday Month)
+  "Happy Birthday, Mom! Today marks the first day of 365 days where I get to remind you how much I love you. Thank you for all of your hardwork for me and this family. I know well enough whatever birthday gift i could give you, it would never be enough to pay all of the things you've done for me. Hopefully, this birthday gift make your 44th year old more special. Comeback everyday to see new message.",
+  "Thank you for every early morning you woke up just to make sure I was okay. You never had to say a word — your presence said everything.",
+  "You've always believed in me, even when I didn't believe in myself. That faith you carry for me? I carry it every single day.",
+  "The way you laugh — truly laugh — is one of my favorite sounds in the entire world. I hope you laughed today.",
+  "You taught me that kindness is not a weakness. It's the bravest thing a person can be. Thank you for being so brave.",
+  "I don't say this enough: I am so proud to be your child. You have built so much with your hands, your heart, and your will.",
+  "Remember when you stayed up with me because I was scared? You made the dark feel safe. You still do.",
+  "Every recipe you make tastes like home. Like belonging. Like you.",
+  "You deserve a day where someone takes care of you for once. Let today be one of those days — at least in your heart.",
+  "You are not just my mom. You are the first person who ever truly knew me.",
+  "There is a warmth in this world that comes from you. People feel it when you walk into a room.",
+  "I watch how hard you work and I think: I want to be that strong someday. You inspire me every single day.",
+  "Thank you for never giving up. Not on me. Not on yourself. Not on us.",
+  "You have a way of making small moments feel like celebrations. That is a gift not everyone has.",
+  "If I could give you one thing today, it would be rest. Real, deep, peaceful rest. You've more than earned it.",
+  "You are the reason I know that love is not just a feeling — it's a choice, made every single day. You chose it for us.",
+  "I see you. All the sacrifices you made quietly, without asking for credit. I see them. I am grateful.",
+  "Your courage has shaped me more than any lesson I've ever learned. You live boldly, even when it's hard.",
+  "You make ordinary days feel extraordinary just by being in them.",
+  "The way you love — so fiercely, so completely — has changed how I see the world.",
+  "Today I just want you to know: you are more than enough. You have always been more than enough.",
+  "I hope today was gentler with you than yesterday. You deserve gentle days.",
+  "Your hands have built so much. They've held so much. They've given so much. Thank you.",
+  "If I could write a letter to the whole world, I'd just say: you should meet my mom.",
+  "You carry so much — and you do it with grace that takes my breath away.",
+  "I love how you still find wonder in little things. Sunsets. Good food. A funny moment. That's real joy.",
+  "You've given me roots to stand on and wings to fly with. What a gift.",
+  "Today I thought about a random memory with you and it made me smile all day. You live in my best moments.",
+  "Thank you for being my safe place when the world felt too loud.",
+  "One month of messages down, so much love still to say. I love you endlessly, Mom.",
+
+  // Days 31–60 (April)
+  "Spring is here — and it always makes me think of new beginnings. You've given me so many.",
+  "You are the person I call when anything — good or bad — happens. That says everything.",
+  "The older I get, the more I understand everything you gave up for me. I don't take a single thing for granted.",
+  "You see the best in people even when it's hard to find. The world is kinder because of how you look at it.",
+  "Today's message is simple: I miss you when you're not near. Even just knowing you're out there makes me feel safe.",
+  "You've sat with me in some of my darkest moments and never tried to rush the light. Thank you for that.",
+  "Your smile is contagious. I hope you smiled a big, real smile today.",
+  "I think about all the birthdays, school plays, late nights, hard mornings — and I think: what a life we've shared.",
+  "You have a way of making me feel like I matter. Like I'm worth showing up for. You gave me that.",
+  "Thank you for teaching me what a home really is — not a place, but a feeling.",
+  "You're the most hardworking person I know. Rest a little today. You've earned it ten times over.",
+  "Every time I face something hard, I ask: what would Mom do? The answer always gets me through.",
+  "There's a resilience in you that I've tried my whole life to borrow. It lives in me now. Thank you.",
+  "You've loved me through every version of myself — the difficult ones too. That is extraordinary love.",
+  "I hope today brought you something unexpected and good. You deserve pleasant surprises.",
+  "Your voice is one of the first things I remember. It sounded like safety.",
+  "You are patient in ways that amaze me. You always found the right time, the right words, the right touch.",
+  "I'm so grateful we get to do life together. Every ordinary day with you is a gift.",
+  "You showed me that showing up — even when it's hard — is how you love someone for real.",
+  "Thank you for every meal, every hug, every look that said 'I've got you.' I felt every one.",
+  "You've weathered so much and still you bloom. You are extraordinary.",
+  "Today I am just sending you my whole heart across wherever the distance is between us.",
+  "You never let me forget that I was loved. Even on my worst days. Especially then.",
+  "I hope today felt soft and easy. You deserve softness.",
+  "You have a quiet strength that has held our family together more times than you know.",
+  "I love you not just because you're my mom — but because of who you are as a person.",
+  "Your laugh makes everything better. I mean it. It just does.",
+  "You've shown me how to be gracious when things don't go as planned. That lesson has saved me.",
+  "Today's reminder: you are seen, you are loved, you are more than enough.",
+  "Two months done. 305 more messages of love to go.",
+
+  // Days 61–90 (May)
+  "May is here — a month of flowers, and you're the most beautiful of them all.",
+  "I think about how different my life would be without your love, and I can't even go there. I'm so lucky.",
+  "You've taught me more about strength than any book ever could.",
+  "Every good habit I have, every kind instinct — I trace it back to you.",
+  "Today I want you to do something just for you. Something you love. You deserve that.",
+  "You are a whole universe of love, wisdom, and warmth. I am so blessed to orbit you.",
+  "The small things you did — the notes in lunches, the goodnight kisses, the little celebrations — they made me.",
+  "Thank you for being proud of me even before I gave you real reasons to be.",
+  "You've taught me that vulnerability isn't weakness — it's the deepest form of strength.",
+  "I carry your voice with me everywhere. It's the one that tells me I can do it.",
+  "You've shown up for me in ways that have no name. Ways that just felt like love.",
+  "Today I want you to know: the world is better with you in it. So much better.",
+  "You see something special in ordinary moments. That's a rare and beautiful gift.",
+  "Thank you for all the times you put me first. I see it now more clearly than ever.",
+  "I want to make you as proud as you've made me feel, every single day.",
+  "You are someone people are lucky to know. And I get to call you mine.",
+  "I hope wherever you are today, there is sunshine and something delicious to eat.",
+  "Your patience with me, especially when I didn't deserve it, is one of the greatest gifts of my life.",
+  "You've loved me on my best days and my worst ones, and you never treated them differently.",
+  "Today's message is a hug from me to you, sent through the screen. Feel it.",
+  "You are everything I hope to become: warm, strong, wise, kind, and unapologetically yourself.",
+  "Every time I feel lost, I think of your steady presence and I find my way.",
+  "I wish I could give you a whole day of nothing but peace and joy today.",
+  "You have a way of making people feel at home. That's one of your many superpowers.",
+  "Thank you for teaching me how to be a good person. That's the most important lesson.",
+  "I love the way you tell stories. Every one of them feels like coming home.",
+  "You've shown me what unconditional love really looks like. I am changed by it.",
+  "Today, three months of love messages in. And I still have so much left to say.",
+  "You are one of the most remarkable people I know — and I know a lot of people.",
+  "I love you, Mom. More than words, always. But I'll keep trying with words anyway.",
+
+  // Days 91–120 (June)
+  "Summer is coming — and every warm day reminds me of you.",
+  "I think about your strength often. It's become a standard I hold myself to.",
+  "Thank you for making me feel like home is a person, not just a place. You are my home.",
+  "You've always made space for me. Space to grow, to be wrong, to try again. That's real love.",
+  "I hope today has been filled with things that make you feel loved — because you absolutely are.",
+  "The world is a softer place because of how you move through it.",
+  "You've given me memories I will treasure my whole life. Thank you for every one.",
+  "Today I'm thinking of a specific time you helped me through something hard. Thank you for that.",
+  "You've made hard things look manageable and scary things look survivable. Thank you.",
+  "Your generosity — with your time, your love, your energy — is truly something else.",
+  "I hope you know how deeply you are appreciated. Not just by me, but by everyone who's lucky to know you.",
+  "You are strong in the ways that matter most: steady, reliable, faithful.",
+  "Every time I achieve something, I know a big part of it is because of how you raised me.",
+  "Today's message is about gratitude. I am so deeply, endlessly grateful for you.",
+  "You are grace under pressure. I've watched you and tried to learn it my whole life.",
+  "I hope you're taking care of yourself, Mom. Your wellbeing matters more than you know.",
+  "You've always known when to push me and when to hold me. That wisdom is rare.",
+  "I love you in a way that has no adequate words. But I keep trying anyway.",
+  "You've loved me with no conditions and no expiry date. What a profound gift.",
+  "Today I just want to say: you are doing great. You always have been.",
+  "Your strength has been the backbone of this family in ways you may not even realize.",
+  "I hope today is one of those days you'll look back on and smile.",
+  "Thank you for always having a door open for me — literally and figuratively.",
+  "You make hard conversations feel safe. That takes real courage and love.",
+  "Every hug from you has always felt like the world clicking back into place.",
+  "You are not just loved — you are cherished. There's a difference, and you deserve both.",
+  "I think about you every day. Today, I just needed you to know that.",
+  "You've been my compass so many times when I couldn't find north. Thank you.",
+  "I hope the coming months bring you every good thing you deserve.",
+  "Four months of messages. My love for you grows with every single one.",
+
+  // Days 121–150 (July)
+  "July means summer heat — and your warmth has always meant more to me than any season.",
+  "You've never asked me to be perfect. That permission to be human changed my life.",
+  "Thank you for every time you said 'I believe in you' — I stored each one.",
+  "You are, genuinely, one of the best people I've ever known.",
+  "I hope today was filled with laughter. Real, belly-deep laughter. You deserve it.",
+  "Your love has been the most consistent thing in my life. Steady as gravity.",
+  "Thank you for teaching me to be curious about the world. It's made everything richer.",
+  "You've loved generously, fiercely, and without hesitation. What a legacy.",
+  "I hope today you felt the full weight of how loved you are.",
+  "You are proof that you don't have to be loud to be powerful.",
+  "I've watched you keep going through things that would stop most people. You amaze me.",
+  "Today's message is just this: I love you. No explanation needed.",
+  "You've been my biggest cheerleader and my safest shelter, often at the same time.",
+  "Thank you for every sacrifice I didn't even know you were making.",
+  "Your love taught me that people are worth fighting for. I learned it by watching you.",
+  "I hope whatever you're carrying today feels lighter. You deserve ease.",
+  "You've made me feel seen in ways no one else ever has. Thank you for truly knowing me.",
+  "You are someone worth celebrating every single day — not just birthdays.",
+  "I know you give so much. Today I hope the world gives something back to you.",
+  "You've built so much goodness into this world, quietly and without fanfare. I see it.",
+  "Today I'm thinking about all the little moments of magic you created for me.",
+  "Your kindness ripples out further than you know. It's changed lives.",
+  "I am who I am because of who you showed me I could be.",
+  "Today I hope you treated yourself to something wonderful. You've earned it.",
+  "Five months of messages and every one of them true.",
+  "You are a safe harbor in any storm. I've always known where to find shelter.",
+  "Thank you for being genuinely, authentically, beautifully yourself.",
+  "I love you today in a way that's a little bigger than yesterday.",
+  "You've taught me more about love than I could ever fully articulate.",
+  "Halfway through the year — and this is only the halfway point of my love for you.",
+
+  // Days 151–180 (August)
+  "Six months in. We're halfway through this year of love. You've made every day worth the message.",
+  "You are patient in ways I am still learning. Thank you for modeling it so gracefully.",
+  "Today I want you to take a moment — breathe, exist, feel how loved you are.",
+  "The older I get, the more I understand the weight of everything you carried with a smile.",
+  "You've shown me what it looks like to love someone when it's hard. That's real love.",
+  "Your cooking has fed me — but your love has nourished me.",
+  "I hope August brings you cool breezes and the company of people who love you.",
+  "You have a light in you that doesn't go out. I've watched for it my whole life.",
+  "Today's message: you are valued beyond measure, and I need you to believe that.",
+  "Thank you for every time you listened without judgment. It gave me the courage to keep talking.",
+  "You've always found the good in things, even when it was buried deep. That's wisdom.",
+  "I love how proud you are — of your family, your work, your life. It's beautiful.",
+  "You've always fought for me. Quietly, fiercely, constantly. I see it.",
+  "Your voice is home. I could hear it forever.",
+  "I hope today felt like a gift — because you deserve days that feel like that.",
+  "You gave me the gift of knowing I was loved before I even understood what love was.",
+  "Every time life gets hard, I remember how you handled hard things. It carries me.",
+  "Thank you for loving me through every confusing, difficult chapter of growing up.",
+  "You are one of the most genuinely good people I know. That's not nothing. That's everything.",
+  "Today I thought of you and smiled. Just like that. Out of nowhere. Because of everything.",
+  "You've been a constant in a life full of changes. I cannot overstate how much that means.",
+  "I hope you're getting enough rest. Your body and spirit deserve to be replenished.",
+  "You've made celebrating ordinary days feel like an art form. I've tried to learn it.",
+  "Thank you for every 'I love you' — each one mattered more than you know.",
+  "You are the most important person in my story. That will never change.",
+  "Today I just want to wrap you in gratitude and hold it there for a while.",
+  "You've given me so many tools for life. Wisdom, resilience, compassion, curiosity.",
+  "Your faith in me is one of the most powerful forces in my life.",
+  "I love you in ways I am still discovering — every year there's more of it.",
+  "Seven months. This love doesn't run out.",
+
+  // Days 181–210 (September)
+  "September brings the shift of seasons — and I'm reminded of how you've been steady through all of mine.",
+  "Thank you for being the kind of parent who made me feel like I was worth knowing.",
+  "You've always shown up — not just physically, but fully, completely present.",
+  "I hope today brought you at least one moment that made your heart feel full.",
+  "You are the person I most want to make proud. That hasn't changed since I was small.",
+  "Your love has been the most stable, reliable thing in my universe.",
+  "I think about the future and I hope you're in every version of it.",
+  "You've taught me to savor things — moments, meals, conversations. What a gift.",
+  "Thank you for every time you forgave me. There are more of those than I can count.",
+  "You've held space for all of me — the messy, uncertain, growing parts too.",
+  "I hope you're proud of yourself today, Mom. You should be. Every day.",
+  "Your love story with this family is one of the greatest I've ever witnessed.",
+  "Thank you for being brave enough to be vulnerable with me. It meant everything.",
+  "You see me — truly, deeply see me. Not many people do. I treasure that.",
+  "Today I just want you to rest and feel loved. That's the whole message.",
+  "You are still teaching me things. I am still learning from you every day.",
+  "I hope this year of messages has made you feel a fraction of what you've given me.",
+  "You've loved me with your whole self. I want to do the same for you.",
+  "Thank you for your sense of humor — for making hard days lighter with a laugh.",
+  "You carry grace like it's second nature. I've been trying to carry it too.",
+  "I love you not because I have to, but because I genuinely, deeply choose to.",
+  "Today I'm sending you every bit of warmth and light I can fit into a message.",
+  "You've been my home in every sense of the word. Thank you for that.",
+  "I hope you're eating well, resting well, and feeling well. You deserve all three.",
+  "Eight months of messages. I would write a thousand more.",
+  "You are more loved than you know — by me, always, and completely.",
+  "Thank you for making our family feel like a safe and beautiful place to land.",
+  "I love who you are when you're fully yourself — relaxed, joyful, free.",
+  "Today I hope you felt cared for. You've cared for so many for so long.",
+  "You are extraordinary. Ordinary word, but I mean it in the fullest way.",
+
+  // Days 211–240 (October)
+  "October! The year is winding down — but my love for you never does.",
+  "Thank you for making the holidays magical. Even the quiet ones.",
+  "You've always known how to make a house feel like a home. That's a rare skill.",
+  "I hope today felt autumnal and cozy — because you deserve warm, comfortable days.",
+  "You've loved me even when I made it difficult. That says everything about you.",
+  "Every year I know you, I love you more. That's just the truth of it.",
+  "Thank you for the traditions you built. They've shaped me in ways I'm still discovering.",
+  "You are strong in the most real sense of the word — not hard, but unbreakable.",
+  "I hope you took a moment today to do something purely for yourself.",
+  "Your presence in my life has been the single greatest constant I've had.",
+  "Today I'm thinking about all the times you put me first without a second thought.",
+  "You've shown me that love looks like showing up — again and again and again.",
+  "Thank you for being the person I've been able to call no matter what.",
+  "I carry pieces of you with me everywhere. In how I speak, how I care, how I love.",
+  "You are a force of good in the world. I feel it every time I'm near you.",
+  "Today I hope something delighted you. Something small and perfect.",
+  "I love you more than I will ever be able to say — but I'll keep trying.",
+  "Thank you for being patient with me while I figured myself out. Still figuring.",
+  "You've been my teacher in all the ways that matter most.",
+  "Nine months of messages. I could write nine more years.",
+  "Your resilience is something I think about often. It inspires me every day.",
+  "I hope October is treating you with the gentleness you deserve.",
+  "You are the person I most want to call when something wonderful happens.",
+  "Thank you for being someone worth trusting completely. Not everyone gets that.",
+  "You've loved me through every season of my life. I will do the same for you.",
+  "Today's message is about how proud I am of you — always, in everything.",
+  "Your love is the most unconditional I have ever experienced. I hold it close.",
+  "I hope you're having good days, Mom. And if not — better ones are coming.",
+  "Thank you for every conversation that lasted longer than it needed to — those were the best ones.",
+  "You matter. Deeply, profoundly, irreplaceably. You matter.",
+
+  // Days 241–270 (November)
+  "November brings gratitude season — and you are always at the top of my list.",
+  "Thank you for everything. Not specific things. Just... everything.",
+  "You are the living proof that love is a verb, not just a feeling.",
+  "I hope today gave you something to feel grateful for, and I hope I was on the list.",
+  "You've shown me what it means to be truly thankful — loudly, genuinely, often.",
+  "Thank you for the example you've set in how to treat people with dignity and care.",
+  "I love you with a gratitude that has no floor and no ceiling.",
+  "Today I want you to rest if you can. Let the world take care of itself for a bit.",
+  "You've been my anchor more times than I've acknowledged. Thank you.",
+  "I am grateful every single day that you are my mom.",
+  "Your ability to find joy even in hard times has shaped how I face mine.",
+  "Thank you for helping me build a relationship with myself — one made of your love.",
+  "You are the origin of so many of my best qualities. I hope I make you proud.",
+  "I love how you love — thoroughly, consistently, and with your whole self.",
+  "Ten months of messages. Two more to go. And a lifetime of love after that.",
+  "Today I'm thinking about a moment when you made me feel truly known. There are so many.",
+  "You are the kind of person poems are written about and songs are sung for.",
+  "Thank you for every bedtime, every goodbye, every welcome home.",
+  "I hope November is kind to you. You deserve kindness in every season.",
+  "Your love has been the most transformative force in my entire life.",
+  "Thank you for being someone whose love I have never had to doubt.",
+  "You've been brave for me so many times. I want to be brave for you too.",
+  "I love you in November like I love you every month — completely.",
+  "Today I hope you heard something kind. If not, hear this: you are wonderful.",
+  "You are not just my mom. You are one of the great loves of my life.",
+  "Thank you for celebrating me. For always making my moments feel important.",
+  "I carry the lessons you've taught me everywhere. They've never steered me wrong.",
+  "Today's message: I love you, I miss you, and I am so grateful you're mine.",
+  "You deserve a world full of people who love you as wholly as you love others.",
+  "I hope December comes gently and beautifully for you.",
+
+  // Days 271–300 (December)
+  "December — the final stretch of your birthday year. Still so much love to give.",
+  "The holidays always make me think of you — you made them magic.",
+  "Thank you for every tradition, every ritual, every moment made sacred by your hands.",
+  "I hope this season fills your heart the same way your love fills mine.",
+  "You are the reason the holidays have always felt like more than just days.",
+  "Today I'm thinking about all the ways you've made me feel celebrated, always.",
+  "Thank you for the warmth you bring to every room, every gathering, every life you touch.",
+  "I hope you're surrounded by people who love you this season. You deserve a crowd.",
+  "You've always made the people around you feel like they belong. That's beautiful.",
+  "Eleven months of messages. One more to go. And forever of love after.",
+  "Thank you for teaching me that home is made, not just found.",
+  "I love the way you light up around the people you love. It's radiant.",
+  "Today I hope you let yourself be celebrated. You give so much — receive some too.",
+  "You've built so much for this family. I hope you know how appreciated you are.",
+  "I love you more as each year passes. I didn't think that was possible. It is.",
+  "Today's message: you are someone worth loving. And you are so, so loved.",
+  "Thank you for every moment of beauty you've created in what could've been ordinary days.",
+  "You carry so much love in you. Today, let some of it come back to you.",
+  "I hope the new year brings everything wonderful and nothing unkind.",
+  "You are exactly who you were meant to be. And who you were meant to be is extraordinary.",
+  "Thank you for being the kind of parent I want to tell everyone about.",
+  "I hope today is peaceful, joyful, and filled with everything you love.",
+  "You are the constant in my life I've always been able to count on.",
+  "Today I'm sending you all my love, wrapped up in this message.",
+  "The holidays would not be the same without you. Nothing would.",
+  "I love you to a depth I am still measuring and probably never will fully reach.",
+  "Thank you for this year of love — for being worth every single message.",
+  "You are cherished. Today and always. That will never change.",
+  "One more day left. One more chance to say: you are the greatest gift of my life.",
+  "Tomorrow is the final message. But the love doesn't end there.",
+
+  // Days 301–330 (January)
+  "A new year has begun — and you are still my first and greatest love.",
+  "Thank you for being someone who makes every year better just by being in it.",
+  "I hope the new year is full of things that make your heart leap.",
+  "You've carried so much for so long. I hope this year, some of it is carried for you.",
+  "January always feels like possibility — and you've always made me feel like I'm full of it.",
+  "Thank you for believing in who I could become, long before I did.",
+  "You've navigated so many seasons of life with grace. I'm still learning from you.",
+  "I hope today felt like a fresh page — something hopeful and clean and new.",
+  "You are my greatest teacher, my softest landing, my loudest cheerleader.",
+  "Thank you for welcoming every new chapter — yours and mine — with such open arms.",
+  "You've shown me that growing older can be done with dignity, with joy, with love.",
+  "Today I hope something simple and good found its way to you.",
+  "Your love has been one of the most formative things in my entire existence.",
+  "Thank you for the memories that keep me warm when the world feels cold.",
+  "I love you in January with the same fullness I loved you in March.",
+  "You are the reason I know how to love. Truly, deeply, fully.",
+  "Today's message is a quiet one: I love you. That's enough for today.",
+  "You've kept going through hard winters. I hope this one is mild for you.",
+  "Thank you for being a person I can call no matter the time or the reason.",
+  "I hope you're surrounded today by everything and everyone that makes you feel good.",
+  "You are a wonder — not loudly, but in all the most important ways.",
+  "Thank you for the love you give so freely, so generously, so completely.",
+  "I hope January treats you with the warmth you've always given others.",
+  "You are proof that goodness is real and that it endures.",
+  "Today I want you to know how deeply, specifically, uniquely loved you are.",
+  "You've made me proud to be part of your story. Thank you for having me in it.",
+  "I love who you become more of every year. It's something to behold.",
+  "Thank you for every conversation that changed the way I see things.",
+  "You are still teaching me. I am still grateful for every lesson.",
+  "Almost there — just a few more weeks before we've done a whole year together.",
+
+  // Days 331–365 (February–March)
+  "We're in the final stretch of your special year. My love has only grown.",
+  "Thank you for being a constant in every chapter of my life.",
+  "I hope February brings you warmth, sweetness, and so much love.",
+  "You are someone worth celebrating not just once a year, but every single day.",
+  "Today's message: you did it. You got through another year. And you were magnificent.",
+  "Thank you for every time you put your love into action, not just words.",
+  "I hope today you feel the full accumulation of every message this year.",
+  "You are loved completely, deeply, permanently. Nothing will ever change that.",
+  "Thank you for making my life a place I've always wanted to be.",
+  "You are the reason I know what real love feels like.",
+  "Today I'm thinking of every laugh we've shared and smiling at each one.",
+  "You are extraordinary — not in a far-off way, but in the closest, most real way.",
+  "Thank you for being exactly who you are. No edits, no changes. Perfect as you are.",
+  "I hope these messages have given you even a fraction of what you've given me.",
+  "You've loved me through every version of myself. I am better for it.",
+  "Today I hope you feel celebrated, cherished, and completely at peace.",
+  "You have shaped the person I am in more ways than I will ever be able to count.",
+  "Thank you for every single day of this year — and the 365 before it, and all the rest.",
+  "We are almost at the finish line — but love has no finish line.",
+  "You are my favorite person to celebrate, honor, and adore.",
+  "Thank you for teaching me to love well. I'm still practicing, but I had the best teacher.",
+  "I hope today is filled with everything that makes you feel alive and joyful.",
+  "You are the greatest gift of my life. That is not an exaggeration.",
+  "Today I want you to be selfish — do something completely, perfectly for you.",
+  "You've made this world a better place. I know that to be completely true.",
+  "Tomorrow is the last message. One year of love, recorded forever.",
+  "The final countdown. Two days left. Thank you for being worth every word.",
+  "Yesterday, today, tomorrow — I love you with no condition and no end date.",
+  "Tomorrow we complete one full year of messages — but we're just getting started.",
+  "365 days. 365 messages. 365 ways of saying the same thing: I love you, Mom. Happy Birthday. Today and always, you are my whole heart."
+];
+
+// =============================================
+// STORAGE FUNCTIONS
+// =============================================
+
+async function loadMessages() {
+  try {
+    const result = await window.storage.get('messages_v1');
+    if (result && result.value) {
+      return JSON.parse(result.value);
+    }
+  } catch(e) {}
+  // Save defaults on first load
+  await saveMessages(DEFAULT_MESSAGES);
+  return DEFAULT_MESSAGES;
+}
+
+async function saveMessages(msgs) {
+  try {
+    await window.storage.set('messages_v1', JSON.stringify(msgs));
+  } catch(e) {
+    console.warn('Storage save failed:', e);
+  }
+}
+
+// =============================================
+// DATE & DISPLAY LOGIC
+// =============================================
+
+function getDayIndex() {
+  const start = new Date(2026, 2, 1); // March 1, 2026 = Day 1
+  const today = new Date();
+  const diffMs = today - start;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  return Math.max(0, Math.min(diffDays, 364));
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+async function renderPage() {
+  const messages = await loadMessages();
+  const dayIndex = getDayIndex();
+  const dayNum = dayIndex + 1;
+  const today = new Date();
+
+  document.getElementById('dayNumber').textContent = dayNum;
+  document.getElementById('dateDisplay').textContent = formatDate(today);
+  document.getElementById('todayDate').textContent = formatDate(today);
+
+  const msg = messages[dayIndex] || "No message for today yet. Check back soon! 💌";
+  document.getElementById('messageCard').innerHTML = `
+    <p class="message-text">${msg}</p>
+    <div class="signature">
+      With all my love,<br>
+      <strong>Your Lovely Daughter, Cici 💌</strong>
+    </div>
+  `;
+
+  const pct = (dayNum / 365 * 100).toFixed(1);
+  document.getElementById('progressText').textContent = `${dayNum} / 365 days`;
+  setTimeout(() => {
+    document.getElementById('progressFill').style.width = pct + '%';
+  }, 300);
+}
+
+// =============================================
+// ADMIN ACCESS — SECRET UNLOCK
+// Two ways to open editor (Mom can't find these):
+// 1. Add ?edit=cici to the URL
+// 2. Tap bottom-right corner 7 times fast
+// =============================================
+
+let tapCount = 0;
+let tapTimer = null;
+
+document.getElementById('secretCorner').addEventListener('click', function() {
+  tapCount++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+  if (tapCount >= 7) {
+    tapCount = 0;
+    toggleAdmin();
+  }
+});
+
+// URL secret: yoursite.com?edit=cici
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('edit') === 'cici') {
+    window.addEventListener('load', () => setTimeout(toggleAdmin, 600));
+  }
+})();
+
+let allMessages = [];
+let adminVisible = false;
+
+async function toggleAdmin() {
+  adminVisible = !adminVisible;
+  const panel = document.getElementById('adminPanel');
+  if (adminVisible) {
+    allMessages = await loadMessages();
+    renderAdminMessages();
+    panel.style.display = 'block';
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function renderAdminMessages(startDay = 1) {
+  const container = document.getElementById('adminMessages');
+  const days = Array.from({length: 365}, (_, i) => i);
+  container.innerHTML = days.map(i => `
+    <div style="margin-bottom:12px;">
+      <label style="font-size:0.75rem; font-weight:700; color:var(--text-mid); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Day ${i+1}</label>
+      <textarea id="msg_${i}" style="width:100%; padding:10px 14px; border:1.5px solid var(--rose-light); border-radius:10px; font-size:0.85rem; resize:vertical; min-height:60px; font-family:'Lato',sans-serif; color:var(--text-dark); outline:none;">${allMessages[i] || ''}</textarea>
+    </div>
+  `).join('');
+}
+
+function jumpToDay(val) {
+  const day = parseInt(val);
+  if (day >= 1 && day <= 365) {
+    const el = document.getElementById(`msg_${day-1}`);
+    if (el) el.scrollIntoView({behavior: 'smooth', block: 'center'});
+  }
+}
+
+async function saveAllMessages() {
+  const msgs = Array.from({length: 365}, (_, i) => {
+    const el = document.getElementById(`msg_${i}`);
+    return el ? el.value : (allMessages[i] || '');
+  });
+  await saveMessages(msgs);
+  alert('All messages saved! 💌');
+  toggleAdmin();
+  renderPage();
+}
+
+// =============================================
+// PETALS
+// =============================================
+
+function createPetals() {
+  const container = document.getElementById('petals');
+  const symbols = ['🌸', '🌹', '✿', '❀', '♥', '🌺'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('span');
+    p.className = 'petal';
+    p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 15) + 's';
+    p.style.fontSize = (0.8 + Math.random() * 1) + 'rem';
+    container.appendChild(p);
+  }
+}
+
+createPetals();
+renderPage();
+</script>
+</body>
+</html>
